@@ -1,0 +1,36 @@
+name: livekit-dev
+
+services:
+  livekit:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: dev
+    restart: unless-stopped
+    ports:
+      - 7880:7880
+    volumes:
+      - ./livekit.yaml:/etc/livekit.yaml
+      - ./test:/test
+    depends_on:
+      - redis
+
+  egress:
+    image: livekit/egress
+    restart: unless-stopped
+    cap_add:
+      - CAP_SYS_ADMIN
+    volumes:
+      - ./egress.yaml:/etc/egress.yaml
+      - ${LIVEKIT_EGRESS_DATA-./data}:/data
+    environment:
+      EGRESS_CONFIG_FILE: /etc/egress.yaml
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server /etc/redis.conf
+    restart: unless-stopped
+    volumes:
+      - ./redis.conf:/etc/redis.conf

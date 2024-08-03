@@ -1,0 +1,15 @@
+redis:
+    address: redis:6379
+    username: ""
+    password: ""
+    db: 0
+    use_tls: false
+    sentinel_master_name: ""
+    sentinel_username: ""
+    sentinel_password: ""
+    sentinel_addresses: []
+    cluster_addresses: []
+    max_redirects: null
+api_key: your_key_xxx
+api_secret: your_secret_xxx
+ws_url: wss://livekit.change-me.please

@@ -1,0 +1,34 @@
+name: livekit-prod
+
+services:
+  livekit:
+    image: livekit/livekit-server:latest
+    command: --config /etc/livekit.yaml
+    restart: unless-stopped
+    ports:
+      - 7880:7880
+      - 5349:5349
+    volumes:
+      - ./livekit.yaml:/etc/livekit.yaml
+    depends_on:
+      - redis
+
+  egress:
+    image: livekit/egress:latest
+    restart: unless-stopped
+    environment:
+      - EGRESS_CONFIG_FILE=/etc/egress.yaml
+    volumes:
+      - ./egress.yaml:/etc/egress.yaml
+      - ${LIVEKIT_EGRESS_DATA-./data}:/data
+    cap_add:
+      - CAP_SYS_ADMIN
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7-alpine
+    command: redis-server /etc/redis.conf
+    restart: unless-stopped
+    volumes:
+      - ./redis.conf:/etc/redis.conf

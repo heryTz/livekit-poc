@@ -1,0 +1,8 @@
+{
+  "room_name": "test",
+  "layout": "grid",
+  "file": {
+    "file_type": "MP4",
+    "filepath": "/data/{room_name}/{time}"
+  }
+}
