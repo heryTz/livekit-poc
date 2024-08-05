@@ -17,7 +17,7 @@ services:
     image: livekit/egress:latest
     restart: unless-stopped
     environment:
-      - EGRESS_CONFIG_FILE=/etc/egress.yaml
+      EGRESS_CONFIG_FILE: /etc/egress.yaml
     volumes:
       - ./egress.yaml:/etc/egress.yaml
       - ${LIVEKIT_EGRESS_DATA-./data}:/data
